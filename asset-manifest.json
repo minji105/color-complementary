@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/minji105/color-complementary/static/css/main.1eb7511d.css",
+    "main.js": "/minji105/color-complementary/static/js/main.955739f4.js",
+    "index.html": "/minji105/color-complementary/index.html",
+    "main.1eb7511d.css.map": "/minji105/color-complementary/static/css/main.1eb7511d.css.map",
+    "main.955739f4.js.map": "/minji105/color-complementary/static/js/main.955739f4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1eb7511d.css",
+    "static/js/main.955739f4.js"
+  ]
+}
