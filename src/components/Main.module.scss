@@ -12,6 +12,11 @@ $header-height: 36px;
   align-items: center;
 }
 
+.fontList button {
+  border: none;
+  font-size: 20px;
+}
+
 .sections {
   display: flex;
   width: 100%;
@@ -50,20 +55,4 @@ $header-height: 36px;
 .rgbName {
   font-size: 60px;
   line-height: 60px;
-}
-
-.hr {
-  display: flex;
-  align-items: end;
-  gap: 1rem;
-
-  p:first-child {
-    font-size: 48px;
-  }
-  p:nth-child(2) {
-    font-size: 34px;
-  }
-  p:nth-child(3) {
-    font-size: 24px;
-  }
 }
