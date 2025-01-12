@@ -16,7 +16,6 @@ Find the complementary color with ease.\
 </ul>
 
 ### 텍스트 샘플
-<img src="https://github.com/user-attachments/assets/afc046c2-df33-41d4-a8f9-86791438d16f">
 <ul>
   <li>섹션에 텍스트 샘플을 포함하였습니다.</li>
     <ul>
@@ -26,7 +25,7 @@ Find the complementary color with ease.\
 </ul>
 
 ### 글꼴 설정
-
+<img src="https://github.com/user-attachments/assets/afc046c2-df33-41d4-a8f9-86791438d16f">
 <ul>
   <li>샘플 글꼴 목록을 제공합니다.글꼴을 선택하면 두 섹션 모두에 적용됩니다.</li>
 </ul>
