@@ -6,7 +6,7 @@ Find the complementary color with ease.\
 ## 기능
 
 ### 색상 선택 및 보색 매칭
-
+<img src="https://github.com/user-attachments/assets/0b64328c-4084-4ad6-82ba-3e1e32ed6d7a">
 <ul>
   <li>색상 선택기에서 색을 선택할 수 있습니다.</li>
   <li>선택한 색상에 따라 배경색이 변경되고 보색이 계산되어 보색 섹션의 배경색도 변경됩나다.</li>
@@ -16,7 +16,7 @@ Find the complementary color with ease.\
 </ul>
 
 ### 텍스트 샘플
-
+<img src="https://github.com/user-attachments/assets/afc046c2-df33-41d4-a8f9-86791438d16f">
 <ul>
   <li>섹션에 텍스트 샘플을 포함하였습니다.</li>
     <ul>
