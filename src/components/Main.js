@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { colornames } from "color-name-list";
 import nearestColor from 'nearest-color';
+import { toPng } from "html-to-image";
+import download from "downloadjs";
 import styles from './Main.module.scss';
 
 export default function Main() {
@@ -14,6 +16,9 @@ export default function Main() {
   const [font, setFont] = useState("Arial");
   const fonts = ["Arial", "Times New Roman", "Courier New"];
 
+  const sectionRef = useRef();
+
+  // 텍스트 색상 업데이트
   const updateTextColor = (color) => {
     const r = parseInt(color.substring(1, 3), 16);
     const g = parseInt(color.substring(3, 5), 16);
@@ -25,6 +30,7 @@ export default function Main() {
     return brightness > 128 ? ["#000000", "#ffffff"] : ["#ffffff", "#000"];
   };
 
+  // 보색 찾기
   const getComplementaryColor = (color) => {
     const r = parseInt(color.substring(1, 3), 16);
     const g = parseInt(color.substring(3, 5), 16);
@@ -37,6 +43,7 @@ export default function Main() {
     return `#${compR}${compG}${compB}`;
   };
 
+  // rgb값 반환
   const getRGB = (color) => {
     const r = parseInt(color.substring(1, 3), 16);
     const g = parseInt(color.substring(3, 5), 16);
@@ -44,6 +51,7 @@ export default function Main() {
     return `rgb(${r}, ${g}, ${b})`;
   }
 
+  // 색상 선택하면 텍스트와 배경 색 업데이트
   const handleColorChange = (event) => {
     const selectedColor = event.target.value;
     setBgColor(selectedColor);
@@ -59,8 +67,22 @@ export default function Main() {
     setCompBgColorName(findNearest(complementaryColor).name);
   };
 
+  // 폰트 업데이트
   const handleFontChange = (font) => {
     setFont(font);
+  };
+
+  // 이미지 저장
+  const saveScreenshot = () => {
+    if (sectionRef.current === null) return;
+
+    toPng(sectionRef.current)
+      .then((dataUrl) => {
+        download(dataUrl, "screenshot.png");
+      })
+      .catch((err) => {
+        console.error("Error capturing the screenshot:", err);
+      });
   };
 
   return (
@@ -80,7 +102,6 @@ export default function Main() {
               style={{
                 fontFamily: fontOption,
                 background: font === fontOption ? '#f0f0f0' : 'none',
-                cursor: "pointer",
               }}
               aria-label={`Select font: ${fontOption}`}
             >
@@ -88,9 +109,10 @@ export default function Main() {
             </button>
           ))}
         </div>
+        <button onClick={saveScreenshot}>Save Screenshot</button>
       </header>
 
-      <div className={styles.sections}>
+      <div className={styles.sections} ref={sectionRef}>
         <section style={{ backgroundColor: bgColor, color: textColor, fontFamily: font }}>
           <p className={styles.hexName}>{bgColor}</p>
           <p className={styles.rgbName}>{getRGB(bgColor)}</p>
