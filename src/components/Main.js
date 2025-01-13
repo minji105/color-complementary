@@ -43,14 +43,6 @@ export default function Main() {
     return `#${compR}${compG}${compB}`;
   };
 
-  // rgb값 반환
-  const getRGB = (color) => {
-    const r = parseInt(color.substring(1, 3), 16);
-    const g = parseInt(color.substring(3, 5), 16);
-    const b = parseInt(color.substring(5, 7), 16);
-    return `rgb(${r}, ${g}, ${b})`;
-  }
-
   // 색상 선택하면 텍스트와 배경 색 업데이트
   const handleColorChange = (event) => {
     const selectedColor = event.target.value;
@@ -113,31 +105,42 @@ export default function Main() {
       </header>
 
       <div className={styles.sections} ref={sectionRef}>
-        <section style={{ backgroundColor: bgColor, color: textColor, fontFamily: font }}>
-          <p className={styles.hexName}>{bgColor}</p>
-          <p className={styles.rgbName}>{getRGB(bgColor)}</p>
-          <p>{bgColorName}</p>
-          <p>ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
-          <p>abcdefghijklmnopqrstuvwxyz</p>
-          <p>Color names may not be entirely accurate.</p>
-          <p>&nbsp;Once when I was six years old I saw a magnificent picture in a book, called True Stories from Nature, about the primeval forest. It was a picture of a boa constrictor in the act of swallowing an animal. Here is a copy of the drawing.
-            <br />&nbsp;In the book it said: "Boa constrictors swallow their prey whole, without chewing it. After that they are not able to move, and they sleep through the six months that they need for digestion."
-            <br />&nbsp;I pondered deeply, then, over the adventures of the jungle. And after some work with a colored pencil I succeeded in making my first drawing. My Drawing Number One. It looked something like this:
-          </p>
-        </section>
-        <section style={{ backgroundColor: compBgColor, color: compTextColor, fontFamily: font }}>
-          <p className={styles.hexName}>{compBgColor}</p>
-          <p className={styles.rgbName}>{getRGB(compBgColor)}</p>
-          <p>{compBgColorName}</p>
-          <p>ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
-          <p>abcdefghijklmnopqrstuvwxyz</p>
-          <p>Color names may not be entirely accurate.</p>
-          <p>&nbsp;Once when I was six years old I saw a magnificent picture in a book, called True Stories from Nature, about the primeval forest. It was a picture of a boa constrictor in the act of swallowing an animal. Here is a copy of the drawing.
-            <br />&nbsp;In the book it said: "Boa constrictors swallow their prey whole, without chewing it. After that they are not able to move, and they sleep through the six months that they need for digestion."
-            <br />&nbsp;I pondered deeply, then, over the adventures of the jungle. And after some work with a colored pencil I succeeded in making my first drawing. My Drawing Number One. It looked something like this:
-          </p>
-        </section>
+        <Section
+          backgroundColor={bgColor}
+          color={textColor}
+          fontFamily={font}
+          bgColorName={bgColorName} />
+        <Section
+          backgroundColor={compBgColor}
+          color={compTextColor}
+          fontFamily={font}
+          bgColorName={compBgColorName} />
       </div>
     </div>
+  )
+}
+
+function Section({ backgroundColor, color, fontFamily, bgColorName }) {
+  // rgb값 반환
+  const getRGB = (color) => {
+    const r = parseInt(color.substring(1, 3), 16);
+    const g = parseInt(color.substring(3, 5), 16);
+    const b = parseInt(color.substring(5, 7), 16);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  return (
+    <section style={{ backgroundColor: backgroundColor, color: color, fontFamily: fontFamily }}>
+      <p className={styles.hexName}>{backgroundColor}</p>
+      <p className={styles.rgbName}>{getRGB(backgroundColor)}</p>
+      <p>{bgColorName}</p>
+      <p>ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+      <p>abcdefghijklmnopqrstuvwxyz</p>
+      <p>Color names may not be entirely accurate.</p>
+      <p>&nbsp;Once when I was six years old I saw a magnificent picture in a book, called True Stories from Nature, about the primeval forest. It was a picture of a boa constrictor in the act of swallowing an animal. Here is a copy of the drawing.
+        <br />&nbsp;In the book it said: "Boa constrictors swallow their prey whole, without chewing it. After that they are not able to move, and they sleep through the six months that they need for digestion."
+        <br />&nbsp;I pondered deeply, then, over the adventures of the jungle. And after some work with a colored pencil I succeeded in making my first drawing. My Drawing Number One. It looked something like this:
+      </p>
+    </section>
   )
 }
