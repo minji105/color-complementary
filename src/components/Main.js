@@ -173,16 +173,20 @@ export default function Main() {
       {isModalOpen && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
-            <div className={styles.preview}>
-              <img src={previewImage.full} alt="Preview" className={styles.preview} />
-              <button onClick={() => saveScreenshot(sectionRef)}>save</button>
+            <div className={styles.modalHeader}>
+              <h1>Select a image to save</h1>
+              <button className={styles.cancleBtn} onClick={handleModalClose}>cancle</button>
             </div>
-            <div className={styles.preview}>
-              <img src={previewImage.simplify} alt="Preview" className={styles.preview} />
-              <button onClick={() => saveScreenshot(simplifyRef)}>save</button>
+            <div className={styles.modalImgs}>
+              <div className={styles.preview}>
+                <img src={previewImage.full} alt="Preview" className={styles.preview} />
+                <button onClick={() => saveScreenshot(sectionRef)}>save</button>
+              </div>
+              <div className={styles.preview}>
+                <img src={previewImage.simplify} alt="Preview" className={styles.preview} />
+                <button onClick={() => saveScreenshot(simplifyRef)}>save</button>
+              </div>
             </div>
-
-            <button onClick={handleModalClose}>cancle</button>
           </div>
         </div>
       )}

@@ -81,9 +81,31 @@ $header-height: 36px;
   background-color: #fff;
   padding: 24px;
   border-radius: 16px;
+
+  button {
+    font-size: 20px;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgb(247, 247, 247);
+    }
+  }
+}
+
+.modalHeader {
   display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.modalImgs {
+  display: flex;
+  gap: 20px;
   align-items: end;
-  gap: 24px;
 }
 
 .preview {
