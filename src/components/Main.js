@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { colornames } from "color-name-list";
 import nearestColor from 'nearest-color';
 import { toPng } from "html-to-image";
@@ -17,6 +17,11 @@ export default function Main() {
   const fonts = ["Arial", "Times New Roman", "Courier New"];
 
   const sectionRef = useRef();
+  const simplifyRef = useRef();
+  const [previewImage, setPreviewImage] = useState({
+    full: null, // full screenshot
+    simplify: null, // simplified screenshot
+  });
 
   // 텍스트 색상 업데이트
   const updateTextColor = (color) => {
@@ -64,17 +69,78 @@ export default function Main() {
     setFont(font);
   };
 
-  // 이미지 저장
-  const saveScreenshot = () => {
-    if (sectionRef.current === null) return;
+  // 화면 변경 감지 및 캡처 후 세션 저장
+  useEffect(() => {
+    if (!sectionRef.current || !simplifyRef.current) return;
 
-    toPng(sectionRef.current)
+    // MutationObserver로 화면 변경 감지
+    const observer1 = new MutationObserver(() => {
+      captureAndSaveToSession(sectionRef, "fullImage");
+    });
+
+    const observer2 = new MutationObserver(() => {
+      captureAndSaveToSession(simplifyRef, "simplifyImage");
+    });
+
+    observer1.observe(sectionRef.current, {
+      attributes: true,
+      childList: true,
+      subtree: true,
+    });
+
+    observer2.observe(simplifyRef.current, {
+      attributes: true,
+      childList: true,
+      subtree: true,
+    });
+
+    return () => {
+      observer1.disconnect();
+      observer2.disconnect();
+    };
+  }, []);
+
+  const captureAndSaveToSession = async (ref, key) => {
+    if (!ref.current) return;
+
+    try {
+      const dataUrl = await toPng(ref.current);
+      sessionStorage.setItem(key, dataUrl); // 각 섹션에 대해 별도의 key로 세션에 저장
+    } catch (err) {
+      console.error("Error capturing the screenshot:", err);
+    }
+  };
+
+  // 이미지 저장
+  const saveScreenshot = (ref) => {
+    if (ref.current === null) return;
+
+    toPng(ref.current)
       .then((dataUrl) => {
-        download(dataUrl, "screenshot.png");
+        download(dataUrl, `${bgColor}_${compBgColor}.png`);
       })
       .catch((err) => {
         console.error("Error capturing the screenshot:", err);
       });
+  };
+
+  // 모달
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    const fullImage = sessionStorage.getItem("fullImage");
+    const simplifyImage = sessionStorage.getItem("simplifyImage");
+
+    setPreviewImage({
+      full: fullImage,
+      simplify: simplifyImage,
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setPreviewImage({ full: null, simplify: null });
   };
 
   return (
@@ -101,10 +167,49 @@ export default function Main() {
             </button>
           ))}
         </div>
-        <button onClick={saveScreenshot}>Save Screenshot</button>
+        <button onClick={handleModalOpen}>Save Screenshot</button>
       </header>
 
-      <div className={styles.sections} ref={sectionRef}>
+      {isModalOpen && (
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
+            <div className={styles.preview}>
+              <img src={previewImage.full} alt="Preview" className={styles.preview} />
+              <button onClick={() => saveScreenshot(sectionRef)}>save</button>
+            </div>
+            <div className={styles.preview}>
+              <img src={previewImage.simplify} alt="Preview" className={styles.preview} />
+              <button onClick={() => saveScreenshot(simplifyRef)}>save</button>
+            </div>
+
+            <button onClick={handleModalClose}>cancle</button>
+          </div>
+        </div>
+      )}
+
+      <div className={styles.sections}>
+        <Section
+          backgroundColor={bgColor}
+          color={textColor}
+          fontFamily={font}
+          bgColorName={bgColorName} />
+        <Section
+          backgroundColor={compBgColor}
+          color={compTextColor}
+          fontFamily={font}
+          bgColorName={compBgColorName} />
+      </div>
+
+      <div className={styles.simplifyImg} ref={simplifyRef}>
+        <div style={{ backgroundColor: bgColor, color: textColor, fontFamily: font }}>
+          <p className={styles.hexName}>{bgColor}</p>
+        </div>
+        <div style={{ backgroundColor: compBgColor, color: compTextColor, fontFamily: font }}>
+          <p className={styles.hexName}>{compBgColor}</p>
+        </div>
+      </div>
+
+      <div className={styles.sectionsImg} ref={sectionRef}>
         <Section
           backgroundColor={bgColor}
           color={textColor}
