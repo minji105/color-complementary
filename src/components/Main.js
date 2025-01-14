@@ -4,6 +4,7 @@ import nearestColor from 'nearest-color';
 import { toPng } from "html-to-image";
 import download from "downloadjs";
 import styles from './Main.module.scss';
+import Header from "./Header";
 
 export default function Main() {
   const [bgColor, setBgColor] = useState("#ffffff");
@@ -13,15 +14,35 @@ export default function Main() {
   const [bgColorName, setBgColorName] = useState("White");
   const [compBgColorName, setCompBgColorName] = useState("Black");
 
-  const [font, setFont] = useState("Arial");
-  const fonts = ["Arial", "Times New Roman", "Courier New"];
-
   const sectionRef = useRef();
   const simplifyRef = useRef();
   const [previewImage, setPreviewImage] = useState({
     full: null, // full screenshot
     simplify: null, // simplified screenshot
   });
+
+  const [font, setFont] = useState("Arial");
+
+  // 폰트 업데이트
+  const handleFontChange = (font) => {
+    setFont(font);
+  };
+
+  // 색상 선택하면 텍스트와 배경 색 업데이트
+  const handleColorChange = (event) => {
+    const selectedColor = event.target.value;
+    setBgColor(selectedColor);
+    setTextColor(updateTextColor(selectedColor)[0]);
+
+    const complementaryColor = getComplementaryColor(selectedColor);
+    setCompBgColor(complementaryColor);
+    setcompTextColor(updateTextColor(selectedColor)[1]);
+
+    let colors = colornames.reduce((o, { name, hex }) => Object.assign(o, { [name]: hex }), {});
+    const findNearest = nearestColor.from(colors);
+    setBgColorName(findNearest(selectedColor).name);
+    setCompBgColorName(findNearest(complementaryColor).name);
+  };
 
   // 텍스트 색상 업데이트
   const updateTextColor = (color) => {
@@ -46,27 +67,6 @@ export default function Main() {
     const compB = (255 - b).toString(16).padStart(2, '0');
 
     return `#${compR}${compG}${compB}`;
-  };
-
-  // 색상 선택하면 텍스트와 배경 색 업데이트
-  const handleColorChange = (event) => {
-    const selectedColor = event.target.value;
-    setBgColor(selectedColor);
-    setTextColor(updateTextColor(selectedColor)[0]);
-
-    const complementaryColor = getComplementaryColor(selectedColor);
-    setCompBgColor(complementaryColor);
-    setcompTextColor(updateTextColor(selectedColor)[1]);
-
-    let colors = colornames.reduce((o, { name, hex }) => Object.assign(o, { [name]: hex }), {});
-    const findNearest = nearestColor.from(colors);
-    setBgColorName(findNearest(selectedColor).name);
-    setCompBgColorName(findNearest(complementaryColor).name);
-  };
-
-  // 폰트 업데이트
-  const handleFontChange = (font) => {
-    setFont(font);
   };
 
   // 화면 변경 감지 및 캡처 후 세션 저장
@@ -145,30 +145,13 @@ export default function Main() {
 
   return (
     <div className={styles.main}>
-      <header className={styles.header}>
-        <input
-          type="color"
-          value={bgColor}
-          onChange={handleColorChange}
-          aria-label="Color Picker"
-        />
-        <div className={styles.fontList}>
-          {fonts.map((fontOption) => (
-            <button
-              key={fontOption}
-              onClick={() => handleFontChange(fontOption)}
-              style={{
-                fontFamily: fontOption,
-                background: font === fontOption ? '#f0f0f0' : 'none',
-              }}
-              aria-label={`Select font: ${fontOption}`}
-            >
-              Abc
-            </button>
-          ))}
-        </div>
-        <button onClick={handleModalOpen}>Save Screenshot</button>
-      </header>
+      <Header
+        bgColor={bgColor}
+        font={font}
+        handleFontChange={handleFontChange}
+        handleColorChange={handleColorChange}
+        handleModalOpen={handleModalOpen}
+      />
 
       {isModalOpen && (
         <div className={styles.modal}>
