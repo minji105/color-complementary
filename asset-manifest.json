@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/color-complementary/static/css/main.16a6e1c2.css",
-    "main.js": "/color-complementary/static/js/main.24a992b8.js",
+    "main.css": "/color-complementary/static/css/main.01d202d2.css",
+    "main.js": "/color-complementary/static/js/main.6718c2d4.js",
     "index.html": "/color-complementary/index.html",
-    "main.16a6e1c2.css.map": "/color-complementary/static/css/main.16a6e1c2.css.map",
-    "main.24a992b8.js.map": "/color-complementary/static/js/main.24a992b8.js.map"
+    "main.01d202d2.css.map": "/color-complementary/static/css/main.01d202d2.css.map",
+    "main.6718c2d4.js.map": "/color-complementary/static/js/main.6718c2d4.js.map"
   },
   "entrypoints": [
-    "static/css/main.16a6e1c2.css",
-    "static/js/main.24a992b8.js"
+    "static/css/main.01d202d2.css",
+    "static/js/main.6718c2d4.js"
   ]
 }
